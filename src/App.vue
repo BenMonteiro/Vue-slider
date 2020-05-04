@@ -1,12 +1,42 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <carousel>
+      <slide v-for="slide in slides" :index="slide.index" :key="slide">
+        <img :src="slide.imageUrl" alt="" />
+      </slide>
+    </carousel>
+    <input type="text" v-model="url" placeholder="Entrez une url" />
+    <button @click="addSlide">Ajouter une slide</button>
   </div>
 </template>
+
+<script>
+import Carousel from "./components/Carousel";
+import Slide from "./components/Slide";
+export default {
+  components: {
+    Carousel,
+    Slide,
+  },
+  data() {
+    return {
+      url: "",
+      slides: [
+        {
+          index: 0,
+          imageUrl:
+            "https://media.routard.com/image/53/1/fotolia-92030325-s.1452531.c1000x300.jpg",
+        },
+      ],
+    };
+  },
+  methods: {
+    addSlide() {
+      this.slides.push({ index: this.slides.length, imageUrl: this.url });
+    },
+  },
+};
+</script>
 
 <style>
 #app {
@@ -17,16 +47,8 @@
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+img {
+  width: 100%;
+  height: 400px;
 }
 </style>
